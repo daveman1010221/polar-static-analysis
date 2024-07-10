@@ -5,7 +5,10 @@
     flake-utils.url = "github:numtide/flake-utils"; # Utility functions for Nix flakes
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # Main Nix package repository
     rust-overlay.url = "github:oxalica/rust-overlay";
+      rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
     l3x.url = "github:rmdettmar/l3x?dir=l3x"; # l3x repo with nix support
+      l3x.inputs.nixpkgs.follows = "nixpkgs";
+      l3x.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = { self, flake-utils, nixpkgs, rust-overlay, l3x, ... }:
