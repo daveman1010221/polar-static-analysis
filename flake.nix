@@ -21,12 +21,12 @@
 
         audit = pkgs.rustPlatform.buildRustPackage rec {
           pname = "cargo-audit";
-          version = "0.20.0";
+          version = "0.20.1";
           src = pkgs.fetchCrate {
             inherit pname version;
-            hash = "sha256-hzy+AVWGWzWYupllrLSryoi4rXPM0+G6WBlRbf03xA8=";
+            hash = "sha256-1HLs7j8opRma3WaHbqeTqG0iJOgD0688/7p/+jrNPAg=";
           };
-          cargoHash = "sha256-OOkJGdqEHNVbgZZIjQupGaSs4tB52b7kPGLKELUocn4=";
+          cargoHash = "sha256-Cd8K/Y+vWWuneeE52yaYgvg9NdBqW+QjUC5XLVVIgc0=";
         };
 
         auditable = pkgs.rustPlatform.buildRustPackage rec {
