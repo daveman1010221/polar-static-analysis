@@ -6,7 +6,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # Main Nix package repository
     rust-overlay.url = "github:oxalica/rust-overlay";
       rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    l3x.url = "github:rmdettmar/l3x?dir=l3x"; # l3x repo with nix support
+    l3x.url = "github:daveman1010221/l3x?dir=l3x"; # l3x repo with nix support
       l3x.inputs.nixpkgs.follows = "nixpkgs";
       l3x.inputs.flake-utils.follows = "flake-utils";
   };
@@ -21,22 +21,22 @@
 
         audit = pkgs.rustPlatform.buildRustPackage rec {
           pname = "cargo-audit";
-          version = "0.20.1";
+          version = "0.21.2";
           src = pkgs.fetchCrate {
             inherit pname version;
-            hash = "sha256-1HLs7j8opRma3WaHbqeTqG0iJOgD0688/7p/+jrNPAg=";
+            hash = "sha256-bRBQpZ0YoKDh959a1a7+qEs2vh+dbP8vYcwbkNZQ5cQ=";
           };
-          cargoHash = "sha256-Cd8K/Y+vWWuneeE52yaYgvg9NdBqW+QjUC5XLVVIgc0=";
+          cargoHash = "sha256-MIwKgQM3LoNV9vcs8FfxTzqXhIhLkYd91dMEgPH++zk=";
         };
 
         auditable = pkgs.rustPlatform.buildRustPackage rec {
           pname = "cargo-auditable";
-          version = "0.6.4";
+          version = "0.6.7";
           src = pkgs.fetchCrate {
             inherit pname version;
-            hash = "sha256-5DJRLjTMOHAhHHunNny7YXKEQoezRb+A8ORPH2WXQ3o=";
+            hash = "sha256-VUyIliP0j/r1vxR7c82Aenn6gtTQJnl+W6dXjirzbVY=";
           };
-          cargoHash = "sha256-TTR1mhsA9612GR/OVGsp6QmYceasSl4nf827TKCfxPM=";
+          cargoHash = "sha256-W0FivJVR7bwCrLHDtMrVZ0p4fJMNcu1p+mEFYE7HfM4=";
           doCheck = false; # turn off package checks (which don't work in the nix environment)
         };
 
@@ -47,18 +47,18 @@
             inherit pname version;
             hash = "sha256-9uWQNaRt5U09YIiAFBLUgcHWm2vg2gazSjtwR1+It3M=";
           };
-          cargoHash = "sha256-BBFLyMx1OPT2XAM6pofs2kV/3n3FrNu0Jkyr/Y3smnI=";
+          cargoHash = "sha256-8Omw8IsmoFYPBB6q1EAAbcBhTjBWfCChV2MhX9ImY8Y=";
 
         };
 
         semvers = pkgs.rustPlatform.buildRustPackage rec {
           pname = "cargo-semver-checks";
-          version = "0.32.0";
+          version = "0.41.0";
           src = pkgs.fetchCrate {
             inherit pname version;
-            hash = "sha256-wz2HT40oGGhCn2f1Co/aLhcanjsv5QAXUFXRXletITw=";
+            hash = "sha256-uMZ31UK1eZevSOXSOEx3t1PdNQI74R5To+sjJl/eWd8=";
           };
-          cargoHash = "sha256-S03fgnefhU6c5e9YtFMBart+nfBQj7f4O+lSPe8fgqg=";
+          cargoHash = "sha256-8VtSQZHR8L6nijcN71ey9nW5nrAsPK6qyqJSWQDz8uw=";
           buildInputs = with pkgs; [
             cmake
             gnumake
@@ -73,12 +73,12 @@
         # this works when you cargo-install it
         spellcheck = pkgs.rustPlatform.buildRustPackage rec {
           pname = "cargo-spellcheck";
-          version = "0.14.0";
+          version = "0.15.5";
           src = pkgs.fetchCrate {
             inherit pname version;
-            hash = "sha256-Ywc0/y8SE/hk+keZbnblMHSfm1HI1dCJ9i97qEG50v0=";
+            hash = "sha256-3kA2CXkyJTr6i8zmKIcmau2FxbRMPiUOd7TYeHHGoAI=";
           };
-          cargoHash = "sha256-7zZ3Erb8LwGor9X3cd4TRpFLfO4DXMzkdexPfqyrkzk=";
+          cargoHash = "sha256-rYYOBuuBL2kyek4DdKaCkQQPvptSLXYm90e6DjoyUW4=";
           buildInputs = with pkgs; [
             libclang
           ];
@@ -90,12 +90,12 @@
 
         deny = pkgs.rustPlatform.buildRustPackage rec {
           pname = "cargo-deny";
-          version = "0.14.24";
+          version = "0.18.2";
           src = pkgs.fetchCrate {
             inherit pname version;
-            hash = "sha256-CN+HESgzxcAf4msb914GvyeRcqX8aW9sbSxdT+kZkb8=";
+            hash = "sha256-AijD8az86arU8AunymD3+p9rfcNN/5S499JBCpAVoiA=";
           };
-          cargoHash = "sha256-LCdP9i+LogdPVVCI4UIhqGRy6H3GTMpEwX2QOlXbo8Q=";
+          cargoHash = "sha256-3fCACetvO9KRjoTh3V41+vhWFjwaNtoHZ/Zh+Zxmxlc=";
           doCheck = false; # turn off package checks (which don't work in the nix environment)
         };
 
@@ -106,7 +106,7 @@
             inherit pname version;
             hash = "sha256-gdwIbbQDw/DgBV9zY2Rk/oWjPv1SS/+oFnocsMo2Axo=";
           };
-          cargoHash = "sha256-K9I7Eg43BS2SKq5zZ3eZrMkmuHAx09OX240sH0eGs+k=";
+          cargoHash = "sha256-IiS4d6knNKqoUkt0sRSJ+vNluqllS3mTsnphrafugIo=";
 
           nativeBuildInputs = with pkgs; [
             openssl
