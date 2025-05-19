@@ -5,7 +5,8 @@
     flake-utils.url = "github:numtide/flake-utils"; # Utility functions for Nix flakes
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # Main Nix package repository
     rust-overlay.url = "github:oxalica/rust-overlay";
-      rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
     l3x.url = "github:daveman1010221/l3x?dir=l3x"; # l3x repo with nix support
       l3x.inputs.nixpkgs.follows = "nixpkgs";
       l3x.inputs.flake-utils.follows = "flake-utils";
@@ -19,7 +20,14 @@
           overlays = [ rust-overlay.overlays.default ];
         };
 
-        audit = pkgs.rustPlatform.buildRustPackage rec {
+        rustToolChain = pkgs.rust-bin.nightly.latest.default;
+
+        rustPlatform = pkgs.makeRustPlatform {
+          cargo = rustToolChain;
+          rustc = rustToolChain;
+        };
+
+        audit = rustPlatform.buildRustPackage rec {
           pname = "cargo-audit";
           version = "0.21.2";
           src = pkgs.fetchCrate {
@@ -29,7 +37,7 @@
           cargoHash = "sha256-MIwKgQM3LoNV9vcs8FfxTzqXhIhLkYd91dMEgPH++zk=";
         };
 
-        auditable = pkgs.rustPlatform.buildRustPackage rec {
+        auditable = rustPlatform.buildRustPackage rec {
           pname = "cargo-auditable";
           version = "0.6.7";
           src = pkgs.fetchCrate {
@@ -40,7 +48,7 @@
           doCheck = false; # turn off package checks (which don't work in the nix environment)
         };
 
-        bloat = pkgs.rustPlatform.buildRustPackage rec {
+        bloat = rustPlatform.buildRustPackage rec {
           pname = "cargo-bloat";
           version = "0.12.1";
           src = pkgs.fetchCrate {
@@ -51,7 +59,7 @@
 
         };
 
-        semvers = pkgs.rustPlatform.buildRustPackage rec {
+        semvers = rustPlatform.buildRustPackage rec {
           pname = "cargo-semver-checks";
           version = "0.41.0";
           src = pkgs.fetchCrate {
@@ -71,7 +79,7 @@
         };
 
         # this works when you cargo-install it
-        spellcheck = pkgs.rustPlatform.buildRustPackage rec {
+        spellcheck = rustPlatform.buildRustPackage rec {
           pname = "cargo-spellcheck";
           version = "0.15.5";
           src = pkgs.fetchCrate {
@@ -88,7 +96,7 @@
           doCheck = false; # turn off package checks (which don't work in the nix environment)
         };
 
-        deny = pkgs.rustPlatform.buildRustPackage rec {
+        deny = rustPlatform.buildRustPackage rec {
           pname = "cargo-deny";
           version = "0.18.2";
           src = pkgs.fetchCrate {
@@ -99,26 +107,27 @@
           doCheck = false; # turn off package checks (which don't work in the nix environment)
         };
 
-        unusedfeatures = pkgs.rustPlatform.buildRustPackage rec {
-          pname = "cargo-unused-features";
-          version = "0.2.0";
-          src = pkgs.fetchCrate {
-            inherit pname version;
-            hash = "sha256-gdwIbbQDw/DgBV9zY2Rk/oWjPv1SS/+oFnocsMo2Axo=";
-          };
-          cargoHash = "sha256-IiS4d6knNKqoUkt0sRSJ+vNluqllS3mTsnphrafugIo=";
+        # unusedfeatures = rustPlatform.buildRustPackage rec {
+        #   pname = "cargo-unused-features";
+        #   version = "0.2.0";
+        #   src = pkgs.fetchCrate {
+        #     inherit pname version;
+        #     hash = "sha256-gdwIbbQDw/DgBV9zY2Rk/oWjPv1SS/+oFnocsMo2Axo=";
+        #   };
+        #   cargoHash = "sha256-IiS4d6knNKqoUkt0sRSJ+vNluqllS3mTsnphrafugIo=";
 
-          nativeBuildInputs = with pkgs; [
-            openssl
-            openssl.dev
-            pkg-config
-          ];
-          buildInputs = with pkgs; [
-            openssl
-            openssl.dev
-            pkg-config
-          ];
-        };
+        #   nativeBuildInputs = with pkgs; [
+        #     rustToolChain
+        #     openssl
+        #     openssl.dev
+        #     pkg-config
+        #   ];
+        #   buildInputs = with pkgs; [
+        #     openssl
+        #     openssl.dev
+        #     pkg-config
+        #   ];
+        # };
 
         in {
           packages.default = pkgs.symlinkJoin {
@@ -132,7 +141,7 @@
               noseyparker
               cargo-udeps
               deny
-              unusedfeatures
+              #unusedfeatures
               l3x.packages.${system}.default
             ];
           };
