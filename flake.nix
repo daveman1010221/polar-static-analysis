@@ -107,6 +107,12 @@
           doCheck = false; # turn off package checks (which don't work in the nix environment)
         };
 
+        staticToolsScript = pkgs.writeShellScriptBin "static-tools.sh" ''
+#!${pkgs.bash}/bin/bash
+# Call the script from the flake source tree
+exec ''${./scripts/static-tools.sh} "$@"
+        '';
+
         # unusedfeatures = rustPlatform.buildRustPackage rec {
         #   pname = "cargo-unused-features";
         #   version = "0.2.0";
@@ -143,6 +149,7 @@
               deny
               #unusedfeatures
               l3x.packages.${system}.default
+              staticToolsScript
             ];
           };
         }
