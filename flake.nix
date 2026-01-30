@@ -82,18 +82,29 @@
         spellcheck = rustPlatform.buildRustPackage rec {
           pname = "cargo-spellcheck";
           version = "0.15.5";
+        
           src = pkgs.fetchCrate {
             inherit pname version;
             hash = "sha256-3kA2CXkyJTr6i8zmKIcmau2FxbRMPiUOd7TYeHHGoAI=";
           };
+        
           cargoHash = "sha256-rYYOBuuBL2kyek4DdKaCkQQPvptSLXYm90e6DjoyUW4=";
+        
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+          ];
+        
           buildInputs = with pkgs; [
             libclang
+            oniguruma
           ];
+        
           preHook = ''
             export LIBCLANG_PATH="${pkgs.libclang.lib}/lib/"
+            export RUSTONIG_SYSTEM_LIBONIG=1
           '';
-          doCheck = false; # turn off package checks (which don't work in the nix environment)
+        
+          doCheck = false;
         };
 
         deny = rustPlatform.buildRustPackage rec {
